@@ -1,3 +1,9 @@
+/*
+	Filename: HybridDriver.cpp
+	Modified By: Logan Davis & Autumn Ferree
+	Last Date Modified: 11/04/2016
+*/
+
 #include "Hybrid.h"
 #include "CD.h"
 using CSC2110::CD;
@@ -40,7 +46,7 @@ void deleteCDs(ListArray<CD>* list)
 int main()
 {
    ListArray<CD>* cds = CD::readCDs("cds.txt");
-
+   
    Hybrid<CD>* h = new Hybrid<CD>(&CD::compare_items, &CD::compare_keys);
    addCDs(cds, h);
 
@@ -52,11 +58,15 @@ int main()
    }
    delete iter;
 
+   cout << "\n\nPress ENTER to continue to unsorted queue format.\n\n";
+   cin.get();
+   
    while(!(h->isEmpty()))
    {
       CD* cd = h->dequeue();
       cd->displayCD();
    }
+   
    delete h;
 
    deleteCDs(cds);

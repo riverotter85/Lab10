@@ -1,3 +1,9 @@
+/*
+	Filename: SortedListDoublyLinked.h
+	Modified By: Logan Davis & Autumn Ferree
+	Last Date Modified: 11/04/2016
+*/
+
 #if !defined (SLDL_H)
 #define SLDL_H
 
@@ -18,9 +24,6 @@ class SortedListDoublyLinked
       DoubleNode<T>* locateNodeRemove(String* sk);
       DoubleNode<T>* locateNodeAdd(T* item);
 
-      DoubleNode<T>* addDN(T* item);
-      T* remove(DoubleNode<T>* curr);
-
       DoubleNode<T>* findHead();
       DoubleNode<T>* findTail();
 
@@ -38,6 +41,9 @@ class SortedListDoublyLinked
       T* get(String* sk);
       void add(T* item);
       void remove(String* sk);
+	  
+	  DoubleNode<T>* addDN(T* item);
+	  T* remove(DoubleNode<T>* curr);
 
       ListDoublyLinkedIterator<T>* iterator();
 
@@ -74,26 +80,42 @@ T* SortedListDoublyLinked<T>::remove(DoubleNode<T>* curr)
 
    //DO THIS (prev == NULL / after == NULL are special cases)
    //remember to set loc
-
-   T* item;
+   
+   if (isEmpty() || curr == NULL) { return NULL; } // Nothing to remove
 
    DoubleNode<T>* prev;
    DoubleNode<T>* after;
+   
+   prev = curr->getPrev();
+   after = curr->getNext();
+   
+   if (prev == NULL && after == NULL)
+   {
+	   // Only one item left in list
+	   loc = NULL;
+   }
+   else if (prev == NULL)
+   {
+	   // Deleting first index in list	   
+	   after->setPrev(NULL);
+	   loc = after;
+   }
+   else if (after == NULL)
+   {
+	   // Deleting last index in list
+	   prev->setNext(NULL);
+	   loc = prev;
+   }
+   else
+   {
+	   // General case
+	   prev->setNext(after);
+	   after->setPrev(prev);
+	   loc = after;
+   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+   T* item = curr->getItem();
+   
    sze--;
    delete curr;
    return item;
